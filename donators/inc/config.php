@@ -19,7 +19,7 @@ if (!defined('DB_PASS')) define('DB_PASS', '');
 if (!defined('DB_NAME')) define('DB_NAME', 'donate');
 if (!defined('DB_PORT')) define('DB_PORT', '3306'); //Ports Other than 3306 currently will not work with this version, your web server (not the game server) must be using 3306//
 
-if (!defined('NUMBER_OF_ATTEMPTS')) define('NUMBER_OF_ATTEMPTS', 6);
+if (!defined('NUMBER_OF_ATTEMPTS')) define('NUMBER_OF_ATTEMPTS', 2323);
 
 
 if (!defined('DOMAIN_NAME')) define('DOMAIN_NAME', 'http://es-gamers.com/donators/'); // REMEMBER TRAILING SLASH >> /
@@ -48,7 +48,7 @@ if ( !defined('USERNAME_AND_PASSWORD') ) define('USERNAME_AND_PASSWORD',"
 ");
 
 // This will be shown if the user has entered incorrect login details.
-if ( !defined('WORNG_LOGIN_DETAILS') ) define('WORNG_LOGIN_DETAILS',"
+if ( !defined('WRONG_LOGIN_DETAILS') ) define('WRONG_LOGIN_DETAILS',"
   Incorrect username and or password!
 ");
 
