@@ -11,7 +11,7 @@ class Core {
 	/**
 	 * Stores the instance to the database
 	 */
-	protected $db;
+	public $db;
 	/**
 	 * Stores the generated CSRF toke
 	 */
