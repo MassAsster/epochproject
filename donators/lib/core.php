@@ -675,7 +675,7 @@ class Core {
 				$_SESSION['LOGIN_ATTEMPTS'] += 1;
 				return json_encode(array(
 					'error' => true,
-					'message' => WORNG_LOGIN_DETAILS
+					'message' => WRONG_LOGIN_DETAILS
 				));
 			}
 			// Check to see if the user is banned.
@@ -712,7 +712,7 @@ class Core {
 			$_SESSION['LOGIN_ATTEMPTS'] += 1;
 			return json_encode(array(
 				'error' => true,
-				'message' => WORNG_LOGIN_DETAILS
+				'message' => WRONG_LOGIN_DETAILS
 			));
 		}
 
