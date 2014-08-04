@@ -11,44 +11,27 @@ if(!isset($_SESSION['init'])) {
 if (!defined('YES')) define('YES', true, true);
 if (!defined('NO')) define('NO', false, true);
 
-////////////MODIFY THIS SECTION /////////////////////////
+////////////MODIFY BELOW HERE /////////////////////////
 //////  WEB SERVER SETUP. NOT GAME SERVER DATABASE //////
 if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
-if (!defined('DB_USER')) define('DB_USER', 'DATABASEUSERNAME');
-if (!defined('DB_PASS')) define('DB_PASS', 'DATABASEPASSWORD');
-if (!defined('DB_NAME')) define('DB_NAME', 'DATABASE NAME');
-if (!defined('DB_PORT')) define('DB_PORT', '3306');
-//Ports Other than 3306 currently will not work with this version, your web server (not the game server) must be using 3306//
-////////////MODIFY THIS SECTION //////////////////
+if (!defined('DB_USER')) define('DB_USER', 'root');
+if (!defined('DB_PASS')) define('DB_PASS', '');
+if (!defined('DB_NAME')) define('DB_NAME', 'donate');
+if (!defined('DB_PORT')) define('DB_PORT', '3306'); //Ports Other than 3306 currently will not work with this version, your web server (not the game server) must be using 3306//
 
 if (!defined('NUMBER_OF_ATTEMPTS')) define('NUMBER_OF_ATTEMPTS', 6);
 
-////////////MODIFY THIS SECTION //////////////////
-// REMEMBER TRAILING SLASH >> /
-if (!defined('DOMAIN_NAME')) define('DOMAIN_NAME', 'http://es-gamers.com/donators/');
-////////////MODIFY THIS SECTION //////////////////
 
+if (!defined('DOMAIN_NAME')) define('DOMAIN_NAME', 'http://es-gamers.com/donators/'); // REMEMBER TRAILING SLASH >> /
 if (!defined('LOGIN_LOCATION')) define('LOGIN_LOCATION', DOMAIN_NAME . 'login.php');
-
-////////////MODIFY THIS SECTION //////////////////
-if (!defined('SITE_NAME')) define('SITE_NAME', 'Es-Gamers.com');
-if (!defined('EMAIL_EXT')) define('EMAIL_EXT', 'es-gamers.com');
+if (!defined('SITE_NAME')) define('SITE_NAME', 'localhost');
+if (!defined('EMAIL_EXT')) define('EMAIL_EXT', 'localhost');
 if (!defined('APP_VERSION')) define('APP_VERSION', '1');
-////////////MODIFY THIS SECTION //////////////////
 
 
-////////////DO NOT MODIFY THIS SECTION //////////////////
+////////////DO NOT MODIFY BELOW HERE //////////////////
 if (!defined('DEFAULT_REDIRECT')) define('DEFAULT_REDIRECT', 'welcome.php');
-////////////DO NOT MODIFY THIS SECTION //////////////////
-/**
- * SALT
- *
- * Enter a random string of text, this can be anything see
- * below for an example I have used. Once you have picked one
- * DO NOT CHANGE IT!! If someone has registered and you change
- * this they will not be able to login, they will have to reset
- * their password.
- */
+
 if (!defined('SALT')) define('SALT', 'R3nd0m5$sStR1n8');
 
 
@@ -137,4 +120,4 @@ if ( !defined('ACCOUNT_DELETED') ) define('ACCOUNT_DELETED', "
 
 
  date_default_timezone_set('GMT');
- error_reporting(0); //  E_ALL OR 0
+ error_reporting(E_ALL); //  E_ALL OR 0

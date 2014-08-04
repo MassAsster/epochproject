@@ -28,6 +28,7 @@ $url = $_SERVER['HTTP_HOST'] . implode('/', $path3);
  * FILE INCLUDES
  */
 require_once ROOT . 'inc/config.php';
+require_once ROOT . 'inc/pbkdf2.php';
 require_once ROOT . 'lib/core.php';
 require_once ROOT . 'lib/email.php';
 require_once ROOT . 'lib/flash.php';

@@ -4,8 +4,7 @@ secure_page();
 $c = get_data();
 include ('style.php');
 require('config.php');
-?>
-<?php		
+
 $user="$c->username";
 $email="$c->email";
 ?>
