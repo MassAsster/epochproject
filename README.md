@@ -12,6 +12,8 @@ Due to the concern from the Epoch dev team about the whole donation based reward
 
 Tokens can be used on player rewards such as a backpack with building loot, a base item (like a well with water, a guard tower ),  a vehicle (not keyed), a vault code change and more.
 
+#H3 It is recommended to take offline any running intances of the old donation system untill we have polish off the vulnrablities that has come to light.
+
  
 
 How it works:
