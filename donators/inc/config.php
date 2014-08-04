@@ -32,7 +32,7 @@ if (!defined('APP_VERSION')) define('APP_VERSION', '1');
 ////////////DO NOT MODIFY BELOW HERE //////////////////
 if (!defined('DEFAULT_REDIRECT')) define('DEFAULT_REDIRECT', 'welcome.php');
 
-if (!defined('SALT')) define('SALT', 'R3nd0m5$sStR1n8');
+//if (!defined('SALT')) define('SALT', 'R3nd0m5$sStR1n8'); Obsolete ADDED PBKDF2.
 
 
 // This will be shown if a person tries some sneaky cross
