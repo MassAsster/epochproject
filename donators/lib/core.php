@@ -663,7 +663,7 @@ class Core {
 		if ( !isset($_SESSION['LOGIN_ATTEMPTS']) )
 			$_SESSION['LOGIN_ATTEMPTS'] = 0;
 
-		if ($_SESSION['LOGIN_ATTEMPTS'] < NUMBER_OF_ATTEMPTS) {
+		if ($_SESSION['LOGIN_ATTEMPTS'] >= NUMBER_OF_ATTEMPTS) {
 			return json_encode( array( 'error' => true, 'message' => 'Too many failed login attempts. Come back later!' ) );
 		}
 
