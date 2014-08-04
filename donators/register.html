@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<TITLE>Registration</TITLE>
+
+<script Language="JavaScript">
+<!--
+function Form1_Validator(theForm)
+{
+  	if (theForm.firstname.value == "")
+  {
+    alert("Please enter a value for the \"firstname\" field.");
+    theForm.firstname.focus();
+    return (false);
+  }
+  	if (theForm.lastname.value == "")
+  {
+    alert("Please enter a value for the \"lastname\" field.");
+    theForm.firstname.focus();
+    return (false);
+  }
+	if (theForm.username.value == "")
+  {
+    alert("Please enter a value for the \"username\" field.");
+    theForm.firstname.focus();
+    return (false);
+  }
+	if (theForm.email.value == "")
+  {
+    alert("Please enter a value for the \"email\" field.");
+    theForm.email.focus();
+    return (false);
+  }	
+  	if (theForm.password.value == "")
+  {
+    alert("Please enter a value for the \"password\" field.");
+    theForm.email.focus();
+    return (false);
+  }
+	if (theForm.password.value != theForm.confirm.value)
+	{
+		alert("The two passwords are not the same.");
+		theForm.confirm.focus();
+		return (false);
+	}
+}
+
+//--></script>
+</head>
+
+<BODY>
+<H1 style="margin-top: 0; margin-bottom: 0"><font face="Tahoma" size="4">
+Register</font></H1>
+<FORM METHOD="POST" ACTION="register.php" onsubmit="return Form1_Validator(this)" language="JavaScript" name="Form1">
+<P style="margin-top: 0; margin-bottom: 0"><font face="Tahoma">
+<strong style="font-weight: 400"><font size="2">First Name:</font></strong><font size="2"><BR>
+</font><font face="Tahoma" size="1">
+<INPUT NAME="firstname" SIZE=25 MAXLENGTH=50></font></font></p>
+<P style="margin-top: 0; margin-bottom: 0"><font face="Tahoma">
+<strong style="font-weight: 400"><font size="2">Last Name:</font></strong><font size="2"><BR>
+</font><font face="Tahoma" size="1">
+<INPUT NAME="lastname" SIZE=25 MAXLENGTH=50><br>
+</font><font face="Tahoma" size="2">
+Username:</font><font face="Tahoma" size="1"><br>
+<INPUT NAME="username" SIZE=25 MAXLENGTH=50></font></font></p>
+<P style="margin-top: 0; margin-bottom: 0"><font face="Tahoma">
+<strong style="font-weight: 400"><font size="2">Password:</font></strong><font size="2"><BR>
+</font><font face="Tahoma" size="1">
+<INPUT TYPE="password" NAME="password" SIZE=25 MAXLENGTH=25><br>
+</font><font size="2"><strong style="font-weight: 400">Confirm Password:</strong></font><font face="Tahoma" size="1"><br>
+<INPUT TYPE="password" NAME="confirm" SIZE=25 MAXLENGTH=25></font></font></p>
+<P style="margin-top: 0; margin-bottom: 0"><strong style="font-weight: 400">
+<font face="Tahoma" size="2">E-Mail Address</font></strong><font face="Tahoma"><strong style="font-weight: 400"><font size="2">:</font></strong><font size="2"><BR>
+</font><font face="Tahoma" size="1">
+<INPUT TYPE="text" NAME="email" SIZE=25 MAXLENGTH=100></font></font></p>
+<P style="margin-top: 0; margin-bottom: 0">
+<INPUT TYPE="submit" NAME="submit" VALUE="Submit" style="font-family: Tahoma"></p>
+</FORM>
+</BODY>
+</HTML>
