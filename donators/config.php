@@ -5,9 +5,9 @@ $version ="1.50";
 $db_name ="databasename";
 $table_name ="authorize";  // don't touch table name
 //connect to the server and select the database
-$server = "hive.hfbservers.com";    
-$dbusername = "USERNAME";   
-$dbpassword = "PASSWORD";
+//$server = "hive.hfbservers.com";    
+//$dbusername = "USERNAME";   
+//$dbpassword = "PASSWORD";
 ////////////MODIFY THIS SECTION //////////////////
 //setup the names and tables for the GAME SERVER database
 ////////////MODIFY THIS SECTION //////////////////

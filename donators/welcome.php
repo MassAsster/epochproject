@@ -1,173 +1,168 @@
 <?php
 require_once 'bootstrap.php';
-secure_page();
-$c = get_data();
 include ('style.php');
 require('config.php');
-?>
-<?php
 
-			
+$c = core::init();
+secure_page();
+$c = get_data();
+
 $user="$c->username";
-       $connection = @mysql_connect($server, $dbusername, $dbpassword)
-			or die(mysql_error());
-			
-$db = @mysql_select_db($db_name,$connection)
-			or die(mysql_error()); 
-			$today = date("Ymd");
-			
+//$connection = @mysql_connect($server, $dbusername, $dbpassword)	or die(mysql_error());
+//			
+//$db = @mysql_select_db($db_name,$connection) or die(mysql_error()); 
+$today = date("Y-m-d H:i:s");
+//$c->connect();
+//var_dump($c);	
 
+//$query = $c->db->prepare("SELECT * FROM `authorize` WHERE username=:user");
+//$query->execute(array(':user' => $user));
+//var_dump($query->rowCount());
+//
 ?>
+
 <TABLE BORDER=1 style='width:600px'><th bgcolor="#003399"> <center><h3><font color=#ffffff>Welcome <?=$c->username?></font> </h3><TR><TD>
 <center><table border=0 bgcolor='#ffffff'><td align=center><tr><P>
 <img src="<?=$c->gravatar?>" >
 <P>
 <?php
-$result33 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user'");
-if (!$result33) {
-    die(mysql_error());
-}
-if (mysql_result($result33, 0, 0) > 0) {
-mysql_query("UPDATE `authorize` SET last_login='$today' WHERE username='$user'");
+
+$query = $c->db->prepare("SELECT * FROM `authorize` WHERE username=:user");
+$query->execute(array(':user' => $user));
+
+if ($query->rowCount() > 0){
+	$c->db->prepare("UPDATE `authorize` SET last_login='$today' WHERE username='$user'");
+	$query->execute(array(':user' => $user));
 } else {
-mysql_query("INSERT INTO `authorize` VALUES ('$user', '$today', 'noname', '0', '0' ,'$coinsgiventonewbies')");
-echo "First time account setup complete <P> You were given $coinsgiventonewbies free token(s) to try this system! ";
+	$query = $c->db->prepare("INSERT INTO `authorize` VALUES (:user, :today, 'noname', '0', '0' , :coins)");
+	$query->execute(array(':user' => $user, ':today' => $today, ':coins' => $coinsgiventonewbies));
+	echo "First time account setup complete <P> You were given $coinsgiventonewbies free token(s) to try this system! <br> ";
 }
 
 
-$result44 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user' AND guid='0'");
-if (!$result44) {
-    die(mysql_error());
-    }
-if (mysql_result($result44, 0, 0) > 0) {
-Echo "<P>We detected you have still yet to update your ID, you can do that <a href=guidsetup.php >HERE</a>";
-}
+$query = $c->db->prepare("SELECT * FROM `authorize` WHERE username=:user AND guid='0'");
+$query->execute(array(':user' => $user));
+
+
+if ($query->rowCount() > 0) echo "<P>We detected you have still yet to update your ID, you can do that <a href=guidsetup.php >HERE</a>";
 else {
-$query11 = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
-
-$result11 = mysql_query($query11) or die(mysql_error());
+$query = $c->db->prepare("SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = :user"); 
+$query->execute(array(':user' => $user));
 
 // Print out result
-while($row = mysql_fetch_array($result11)){
+while($row = $query->fetch(PDO::FETCH_ASSOC)){
 	$tokens="". $row['tokens'] ."";
 	$guid="". $row['guid'] ."";
 	echo "Tokens: $tokens | PlayerID: $guid";
 
+	if($multicharactersupport == 1) {
+		$mutlicharison = "<select name='slot'>
+		<option value='1'>Character 1</option>
+		<option value='2'>Character 2</option>
+		<option value='3'>Character 3</option>
+		<option value='4'>Character 4</option>
+		<option value='5'>Character 5</option>
+		</select>";
+}
+else $mutlicharison = "<input type=hidden name=slot value=0 >";
 	
-	
-	
-	
-	
-if($multicharactersupport == 1) {
-$mutlicharison = "<select name='slot'>
-<option value='1'>Character 1</option>
-<option value='2'>Character 2</option>
-<option value='3'>Character 3</option>
-<option value='4'>Character 4</option>
-<option value='5'>Character 5</option>
-</select>";
+if($mutliserversetup == 1) {
+
+
+	if($howmanyservers == 2) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		</select>";
+	}
+	if($howmanyservers == 3) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		</select>";
+	}
+	if($howmanyservers == 4) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		</select>";
+	}
+	if($howmanyservers == 5) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		</select>";
+	}
+	if($howmanyservers == 6) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		<option value='6'>$servername6</option>
+		</select>"; 
+	}
+	if($howmanyservers == 7) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		<option value='6'>$servername6</option>
+		<option value='7'>$servername7</option>
+		</select>";
+	}
+	if($howmanyservers == 8) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		<option value='6'>$servername6</option>
+		<option value='7'>$servername7</option>
+		<option value='8'>$servername8</option>
+		</select>";
+	}
+	if($howmanyservers == 9) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		<option value='6'>$servername6</option>
+		<option value='7'>$servername7</option>
+		<option value='8'>$servername8</option>
+		<option value='9'>$servername9</option>
+		</select>";
+	}
+	if($howmanyservers == 10) {
+		$serverlist = "<select name='multiserver'>
+		<option value='1'>$servername1</option>
+		<option value='2'>$servername2</option>
+		<option value='3'>$servername3</option>
+		<option value='4'>$servername4</option>
+		<option value='5'>$servername5</option>
+		<option value='6'>$servername6</option>
+		<option value='7'>$servername7</option>
+		<option value='8'>$servername8</option>
+		<option value='9'>$servername9</option>
+		<option value='10'>$servername10</option>
+		</select>";
+	}
 }
 else {
-	$mutlicharison = "<input type=hidden name=slot value=0 >";
-}	
-	
-	if($mutliserversetup == 1) {
-
-
-if($howmanyservers == 2) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-</select>";
-  }
-   if($howmanyservers == 3) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-</select>";
-  }
-     if($howmanyservers == 4) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-</select>";
-  }
-     if($howmanyservers == 5) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-</select>";
-  }
-       if($howmanyservers == 6) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-<option value='6'>$servername6</option>
-</select>"; 
-  }
-         if($howmanyservers == 7) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-<option value='6'>$servername6</option>
-<option value='7'>$servername7</option>
-</select>";
-  }
-           if($howmanyservers == 8) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-<option value='6'>$servername6</option>
-<option value='7'>$servername7</option>
-<option value='8'>$servername8</option>
-</select>";
-  }
-             if($howmanyservers == 9) {
-$serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-<option value='6'>$servername6</option>
-<option value='7'>$servername7</option>
-<option value='8'>$servername8</option>
-<option value='9'>$servername9</option>
-</select>";
-  }
-               if($howmanyservers == 10) {
-  $serverlist = "<select name='multiserver'>
-<option value='1'>$servername1</option>
-<option value='2'>$servername2</option>
-<option value='3'>$servername3</option>
-<option value='4'>$servername4</option>
-<option value='5'>$servername5</option>
-<option value='6'>$servername6</option>
-<option value='7'>$servername7</option>
-<option value='8'>$servername8</option>
-<option value='9'>$servername9</option>
-<option value='10'>$servername10</option>
-</select>";
+	$serverlist = "<input type=hidden name=multiserver value=0 >";
 }
-	}
-	else {
-		$serverlist = "<input type=hidden name=multiserver value=0 >";
-	}
 if($allowstats == 1) {
 echo "<form enctype=multipart/form-data action=mystats.php method=POST target=_blank>$mutlicharison<input type=hidden name=player value=$guid >$serverlist<br><input type='submit' value='My Stats'></form>";
 }
