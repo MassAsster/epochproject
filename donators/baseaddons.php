@@ -4,8 +4,7 @@ secure_page();
 $c = get_data();
 include ('style.php');
 require('config.php');
-?>
-<?php		
+	
 $user="$c->username";
 $email="$c->email";
 ?>
@@ -15,26 +14,22 @@ $email="$c->email";
 <TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Build-O-Base</font> </h3><TR><TD>
 
 <?php
-$connection = @mysql_connect($server, $dbusername, $dbpassword)
-			or die(mysql_error());
-			
-$db = @mysql_select_db($db_name,$connection)
-			or die(mysql_error());
-			
-			
-$result = mysql_query("SELECT * FROM authorize WHERE username='$user'");
 
-while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			
+			
+$query = $c->db->prepare("SELECT * FROM authorize WHERE username=:user");
+$query->execute(array(':user' => $user));
+
+while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
     printf("<center><table border=0 bgcolor='#ffffff'><td align=center><font color=#880000><h3>User:</font> %s </h3>Tokens Remaining: %s <P> <font color=#880000>Player ID:</font> %s <P>", $row["username"], $row["tokens"], $row["guid"] );
-
 }
 
-$query = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
+$query = $c->db->prepare("SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = :user"); 
+$query->execute(array(':user' => $user));
 	 
-$result = mysql_query($query) or die(mysql_error());
 
 // Print out result
-while($row = mysql_fetch_array($result)){
+while($row = $query->fetch(PDO::FETCH_ASSOC)){
 	$tokens="". $row['tokens'] ."";
 	$guid="". $row['guid'] ."";
 	if($guid == 0) {
@@ -87,7 +82,6 @@ else {
 	}
 }
 echo "<P> Notice: Base Items are database driven<P> Your Item will not show up until server restart<P>READ!<P>Stand in the location you want your object to spawn<P>Drink a soda or eat a food Item<P>Press ALT+TAB and order your item<P>";
-	mysql_free_result($result);
 ?>
 </TD></TR></TABLE> 
  <P> 

@@ -58,7 +58,6 @@ else {
 	}
 }
 
-	mysql_free_result($result);
 ?>
 </TD></TR></TABLE> 
  <P> 
