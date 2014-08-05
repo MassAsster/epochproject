@@ -1,47 +1,23 @@
 <?php	
 require_once 'bootstrap.php';
+$c = core::init();
 secure_page();
 $c = get_data();	
 include ('style.php');
 require('config.php');
-?>
-
-<?php
-
 
 
 $user="$c->username";
+$query = $c->db->prepare("SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = :user"); 
+$query->execute(array(':user' => $user));
 
-
-   
-       $connection = @mysql_connect($server, $dbusername, $dbpassword)
-			or die(mysql_error());
-			
-$db = @mysql_select_db($db_name,$connection)
-			or die(mysql_error()); 
-
-
-
-
-
-$query11 = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
-
-$result11 = mysql_query($query11) or die(mysql_error());
+//$result11 = mysql_query($query11) or die(mysql_error());
 
 // Print out result
-while($row = mysql_fetch_array($result11)){
+while($row = $query->fetch(PDO::FETCH_ASSOC)){
 	$tokens="". $row['tokens'] ."";
 	$guid="". $row['guid'] ."";
 	//echo "Tokens: $tokens | PlayerID: $guid";
-
-
-
-
-
-
-
-
-
 
 if($multicharactersupport == 1) {
 $mutlicharison = "<select name='slot'>
@@ -57,7 +33,6 @@ else {
 }	
 	
 	if($mutliserversetup == 1) {
-
 
 if($howmanyservers == 2) {
 $serverlist = "<select name='multiserver'>
