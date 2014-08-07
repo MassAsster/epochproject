@@ -5,78 +5,40 @@ $c = get_data();
 include ('style.php');
 require('config.php');
 ?>
-<?php
-
-			
+<?php		
 $user="$c->username";
-       $connection = @mysql_connect($server, $dbusername, $dbpassword)
+$email="$c->email";
+?>
+
+
+<P>
+<TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Build-O-Base</font> </h3><TR><TD>
+
+<?php
+$connection = @mysql_connect($server, $dbusername, $dbpassword)
 			or die(mysql_error());
 			
 $db = @mysql_select_db($db_name,$connection)
-			or die(mysql_error()); 
-			$today = date("Ymd");
+			or die(mysql_error());
 			
+	
+$result = mysql_query("SELECT * FROM authorize WHERE username='$user'");
 
-?>
-<TABLE BORDER=1 style='width:600px'><th bgcolor="#003399"> <center><h3><font color=#ffffff>Welcome <?=$c->username?></font> </h3><TR><TD>
-<center><table border=0 bgcolor='#ffffff'><td align=center><tr><P>
-<img src="<?=$c->gravatar?>" >
-<P>
-<?php
-$result33 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user'");
-if (!$result33) {
-    die(mysql_error());
-}
-if (mysql_result($result33, 0, 0) > 0) {
-mysql_query("UPDATE `authorize` SET last_login='$today' WHERE username='$user'");
-} else {
-mysql_query("INSERT INTO `authorize` VALUES ('$user', '$today', 'noname', '0', '0' ,'$coinsgiventonewbies')");
-echo "First time account setup complete <P> You were given $coinsgiventonewbies free token(s) to try this system! ";
-}
-$result447 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user' AND serverop='0'");
-if (!$result447) {
-    die(mysql_error());
-    }
-if (mysql_result($result447, 0, 0) > 0) {
-Echo "<P>We detected you have no buddy pin, you can do that <a href=addpin.php >HERE</a>";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    printf("<center><table border=0 bgcolor='#ffffff'><td align=center><font color=#880000><h3>User:</font> %s </h3>Tokens Remaining: %s <P> <font color=#880000>Player ID:</font> %s <P>", $row["username"], $row["tokens"], $row["guid"] );
+
 }
 
-$result44 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user' AND guid='0'");
-if (!$result44) {
-    die(mysql_error());
-    }
-if (mysql_result($result44, 0, 0) > 0) {
-Echo "<P>We detected you have still yet to update your ID, you can do that <a href=guidsetup.php >HERE</a>";
-}
-else {
-$query11 = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
-
-$result11 = mysql_query($query11) or die(mysql_error());
+$query = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
+	 
+$result = mysql_query($query) or die(mysql_error());
 
 // Print out result
-while($row = mysql_fetch_array($result11)){
+while($row = mysql_fetch_array($result)){
 	$tokens="". $row['tokens'] ."";
 	$guid="". $row['guid'] ."";
-	echo "Tokens: $tokens | PlayerID: $guid";
 
-	
-	
-	
-	
-	
-if($multicharactersupport == 1) {
-$mutlicharison = "<select name='slot'>
-<option value='1'>Character 1</option>
-<option value='2'>Character 2</option>
-<option value='3'>Character 3</option>
-<option value='4'>Character 4</option>
-<option value='5'>Character 5</option>
-</select>";
-}
-else {
-	$mutlicharison = "<input type=hidden name=slot value=0 >";
-}	
-	
+
 	if($mutliserversetup == 1) {
 
 
@@ -174,33 +136,80 @@ $serverlist = "<select name='multiserver'>
 	else {
 		$serverlist = "<input type=hidden name=multiserver value=0 >";
 	}
-if($allowstats == 1) {
-echo "<form enctype=multipart/form-data action=mystats.php method=POST target=_blank>$mutlicharison<input type=hidden name=player value=$guid >$serverlist<br><input type='submit' value='My Stats'></form>";
+	
+	if($multicharactersupport == 1) {
+$mutlicharison = "Your Char Slot:<select name='slot'>
+<option value='1'>Character 1</option>
+<option value='2'>Character 2</option>
+<option value='3'>Character 3</option>
+<option value='4'>Character 4</option>
+<option value='5'>Character 5</option>
+</select>";
 }
 else {
+	$mutlicharison = "<input type=hidden name=slot value=0 >";
 }
-	}
+	if($multicharactersupport == 1) {
+$mutlicharbuddy = "Buddy's Char Slot:<select name='buddyslot'>
+<option value='1'>Character 1</option>
+<option value='2'>Character 2</option>
+<option value='3'>Character 3</option>
+<option value='4'>Character 4</option>
+<option value='5'>Character 5</option>
+</select>";
 }
-$areyouadmin = "$c->is_admin";
-if($areyouadmin == 1) {
-echo "<br><form enctype=multipart/form-data action=admintools.php method=POST target=_blank><input type='submit' value='Admin Controls'></form> ";
+else {
+	$mutlicharbuddy = "<input type=hidden name=buddyslot value=0 >";
 }
-	?>
-<br>
-<a href="tokenbank.php"><img src="images/gettokens.png" border="0"></a><a href="edit_profile.php"><img src="images/myprofile.png" border="0"></a><a href="help.php"><img src="images/help.png" border="0"></a><P>
-<a href="revive.php"><img src="images/revive.png" border="0"></a>
-<a href="bagwgun.php"><img src="images/startgear.png" border="0"></a><a href="bagwbuildables.php"><img src="images/building.png" border="0"></a>
-<P>
-<a href="bugfix.php"><img src="images/heal.png" border="0"></a><a href="baseaddons.php"><img src="images/baseparts.png" border="0"></a><a href="vault.php"><img src="images/safe.png" border="0"></a>
-</tr></td></table>
-<center>
-<?php
-if($allowstats == 1) {
-	if($mutliserversetup == 1) {
-	}
-	else {
-include ('genstats.php');
-}
-}
-?>
 
+
+$whatisleft = $tokens - $coinsforbuddy;
+mysql_query("UPDATE `authorize` SET tokens='$whatisleft' WHERE guid='$guid' ");
+
+
+
+echo "
+<table cellspacing='0' cellpadding='10' border='1' bordercolor='#000000'><tr><td>
+<P>
+<form enctype=multipart/form-data action=buddy3.php method=POST>
+<table cellspacing='0' cellpadding='10' border='0' bordercolor='#000000'>
+   <tr>
+      <td>
+         <table cellspacing='2' cellpadding='2' border='0'>
+            <tr>
+            <td align='right'>Enter your Buddies 6 digit pin number
+            <td>$mutlicharison        
+$serverlist   <td>$mutlicharbuddy   
+<input type=hidden name=player value='$guid' >
+
+            <tr>
+               <td align='right' class='normal_field'>6 DIGIT PIN</td>
+               <td class='element_label'>
+                  <input type='text' name='who' placeholder=\"NUMBERS ONLY\" size='20'><td> 
+
+               </td>
+               
+            </tr>
+            <tr>
+               <td colspan='2' align='center'>
+                  <input type='submit' name='Submit' value='Submit'>
+               </td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+</table>
+</form>
+";
+
+
+
+
+	
+}
+
+	//mysql_free_result($result);
+?>
+</TD></TR></TABLE> 
+ <P> 
+<BODY></HTML>

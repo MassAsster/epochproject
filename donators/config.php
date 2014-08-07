@@ -29,6 +29,7 @@ $multicharactersupport = 0; //Support for mutli-character mod, allows up to 5 ch
 $allowstats = 1; //Allow players to view their stats
 $allowbuildobase = 1; // allow Build-o-Base option 0 off 1 on
 $allowvaultchange = 1; // allow changing vault code change option 0 off 1 on
+$allowbuddysys = 1; // allow buddy system teleport option 0 off 1 on
 $instance = 24; // Must match your instance set in the init.sqf
 $logging = 1; //enable logging 
 $zombieweight = .03; //How much for each zombie kill
@@ -54,17 +55,15 @@ $t6="#F4A460";
 ////////////////////////////////////end of stats setup///////////////////////////////////
 
 
-$emailforbuynotice = "someone@somewhere.com"; //E-mail that gets notice of pre-made base purchase
 
-$donationpackage1 = "$5.00 Donation will reward you 10 Tokens"; //First donation reward
-
-$donationpackage2 = "$10.00 Donation will reward you 25 Tokens"; //First donation reward
 
 $coinsgiventonewbies = 5; // new registered players get tokens, this sets how many
 
 $coinsforrevive = ".25";  // number of tokens for revive
 
 $coinsforvault = "1"; // Number of tokens for changing a vault code
+
+$coinsforbuddy = "1"; // tokens to use the buddy system
 
 $coinsforbugfix = ".10"; //Wake up a character that's stuck in the hour glass bug
 
