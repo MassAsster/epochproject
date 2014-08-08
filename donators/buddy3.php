@@ -162,7 +162,7 @@ echo "<TABLE BORDER=1 style='width:400px'><th bgcolor='#003399'> <center><h3><fo
 <td>";
 
 
-echo "<td> DEBUG INFO:   Buddy GUID:  $guid  <P> Buddy WORLD LOCATION: $location <P> Your GUID: $stat2 <td>
+echo "<td> DEBUG INFO:   Buddy GUID:  $guid  <P> Buddy WORLD LOCATION: $location <P> Your GUID: $stat2 <td>";
 
 Echo "Transaction in-progress<P> being applied to Database<P>";
 echo "Please wait...<P><img src=images/loader.gif><P></td></table>";
