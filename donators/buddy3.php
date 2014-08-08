@@ -15,6 +15,31 @@ $user="$c->username";
 
  $slot=$_POST['slot'];
 
+$connection = @mysql_connect($server, $dbusername, $dbpassword)
+			or die(mysql_error());
+			
+$db = @mysql_select_db($db_name,$connection)
+			or die(mysql_error());
+$budslot=$_POST['buddyslot'];
+$budslot=mysql_real_escape_string($budslot);
+ $stat2=$_POST['player'];
+$stat2=mysql_real_escape_string($stat2);
+$multi=mysql_real_escape_string($multi);
+$slot=mysql_real_escape_string($slot);
+$theitem=$_POST['part'];
+$theitem=mysql_real_escape_string($theitem);
+$pin=$_POST['who'];
+$pin=mysql_real_escape_string($pin);
+
+$query22 = "SELECT guid, serverop, COUNT(tokens) FROM authorize WHERE serverop = '$pin'"; 
+	 
+$result22 = mysql_query($query22) or die(mysql_error());
+
+// Print out result
+while($row = mysql_fetch_array($result22)){
+
+	$guid="". $row['guid'] ."";
+	$pin="". $row['serverop'] ."";
 if($multi == 0) {
  //make connection to dbase
 $connection = @mysql_connect($hostname, $username, $password)
@@ -115,27 +140,6 @@ $db = @mysql_select_db($databasenames10,$connection)
 }
 else {
 }
-$budslot=$_POST['buddyslot'];
-$budslot=mysql_real_escape_string($budslot);
- $stat2=$_POST['player'];
-$stat2=mysql_real_escape_string($stat2);
-$multi=mysql_real_escape_string($multi);
-$slot=mysql_real_escape_string($slot);
-$theitem=$_POST['part'];
-$theitem=mysql_real_escape_string($theitem);
-$pin=$_POST['who'];
-$pin=mysql_real_escape_string($pin);
-
-$query22 = "SELECT guid, serverop, COUNT(tokens) FROM authorize WHERE serverop = '$pin'"; 
-	 
-$result22 = mysql_query($query22) or die(mysql_error());
-
-// Print out result
-while($row22 = mysql_fetch_array($result22)){
-
-	$guid="". $row['guid'] ."";
-	$pin="". $row['serverop'] ."";
-
 if($multicharactersupport == 1) {
 $query = "SELECT Worldspace, MAX(CharacterID) FROM $chartablename WHERE PlayerUID = '$guid' AND Slot = '$budslot' AND Alive = 1"; 
 }
@@ -162,7 +166,6 @@ echo "<TABLE BORDER=1 style='width:400px'><th bgcolor='#003399'> <center><h3><fo
 <td>";
 
 
-echo "<td> DEBUG INFO:   Buddy GUID:  $guid  <P> Buddy WORLD LOCATION: $location <P> Your GUID: $stat2 <td>";
 
 Echo "Transaction in-progress<P> being applied to Database<P>";
 echo "Please wait...<P><img src=images/loader.gif><P></td></table>";

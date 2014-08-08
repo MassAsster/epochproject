@@ -97,6 +97,11 @@ $serverlist = "<select name='multiserver'>
 	else {
 		$serverlist = "<input type=hidden name=multiserver value=0 >";
 	}
+	$connection = @mysql_connect($hostname, $username, $password)
+			or die(mysql_error());
+			
+$db = @mysql_select_db($databasename,$connection)
+		or die(mysql_error());
 echo "<TABLE BORDER=0><th width=580> <center><TR><TD align=center>";
 echo "<form enctype=multipart/form-data action=userlist.php method=POST>$serverlist<input type='submit' value='Detailed Player List'></form>";
 			echo "<table BORDER=0 cellpadding=20 bgcolor=\"#1a1a1a\"><tr><td bgcolor=\"$t2\"><center> <h4>Top 10<P>Zombie Killers</h4></center>";

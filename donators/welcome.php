@@ -22,6 +22,8 @@ $db = @mysql_select_db($db_name,$connection)
 <center><table border=0 bgcolor='#ffffff'><td align=center><tr><P>
 <img src="<?=$c->gravatar?>" >
 <P>
+echo "<br><form enctype=multipart/form-data action=addpin.php method=POST><input type='submit' value='Change Pin'></form> ";
+<P>
 <?php
 $result33 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user'");
 if (!$result33) {
@@ -191,7 +193,7 @@ echo "<br><form enctype=multipart/form-data action=admintools.php method=POST ta
 <a href="revive.php"><img src="images/revive.png" border="0"></a>
 <a href="bagwgun.php"><img src="images/startgear.png" border="0"></a><a href="bagwbuildables.php"><img src="images/building.png" border="0"></a>
 <P>
-<a href="bugfix.php"><img src="images/heal.png" border="0"></a><a href="baseaddons.php"><img src="images/baseparts.png" border="0"></a><a href="vault.php"><img src="images/safe.png" border="0"></a>
+<a href="bugfix.php"><img src="images/heal.png" border="0"></a><a href="baseaddons.php"><img src="images/baseparts.png" border="0"></a><a href="vault.php"><img src="images/safe.png" border="0"></a><a href="buddy.php"><img src="images/buddy.png" border="0"></a>
 </tr></td></table>
 <center>
 <?php
