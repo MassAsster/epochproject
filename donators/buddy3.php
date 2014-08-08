@@ -151,10 +151,10 @@ while($row = mysql_fetch_array($result)){
 	$location="". $row['Worldspace'] ."";
 
 if($multicharactersupport == 1) {
-mysql_query("UPDATE `$chartablename` SET Worldspace='$location' WHERE guid='$stat2' AND Slot='$slot' AND Alive='1' ");
+mysql_query("UPDATE `$chartablename` SET Worldspace='$location' WHERE PlayerUID='$stat2' AND Slot='$slot' AND Alive='1' ");
 }
 else {
-mysql_query("UPDATE `$chartablename` SET Worldspace='$location' WHERE guid='$stat2' AND Alive='1' ");
+mysql_query("UPDATE `$chartablename` SET Worldspace='$location' WHERE PlayerUID='$stat2' AND Alive='1' ");
 }
 
 echo "<TABLE BORDER=1 style='width:400px'><th bgcolor='#003399'> <center><h3><font color=#ffffff>Processing</font> </h3><TR><TD>
@@ -162,7 +162,7 @@ echo "<TABLE BORDER=1 style='width:400px'><th bgcolor='#003399'> <center><h3><fo
 <td>";
 
 
-
+echo "<td> DEBUG INFO:   Buddy GUID:  $guid  <P> Buddy WORLD LOCATION: $location <P> Your GUID: $stat2 <td>
 
 Echo "Transaction in-progress<P> being applied to Database<P>";
 echo "Please wait...<P><img src=images/loader.gif><P></td></table>";

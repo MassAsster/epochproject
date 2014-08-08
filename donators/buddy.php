@@ -11,7 +11,7 @@ $user="$c->username";
 
 
 <P>
-<TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Revive Lost Player</font> </h3><TR><TD>
+<TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Buddy System</font> </h3><TR><TD>
 
 <?php
 $connection = @mysql_connect($server, $dbusername, $dbpassword)
@@ -57,7 +57,7 @@ else {
 }
 	$whois="<form enctype=multipart/form-data action=buddy2.php method=POST><input type=hidden name=player value=$guid ><input type=hidden name=cash value=$tokens ><input type=image src=images/doit.png></form>";
 if($tokens >= $coinsforbuddy) {
-echo "<center>Use $coinsforbuddy Token(s) from your stash of $tokens to <P> teleport your character $whois <P> Warning: Using this tool when you<P>are logged into the game or on a dead player will result in you losing a token";
+echo "<center>Use $coinsforbuddy Token(s) from your stash of $tokens to <P> teleport your character to a friend <P> Warning: Using this tool when you<P>are logged into the game or on a dead player will result in you losing a token";
 
 }
 else {

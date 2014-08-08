@@ -12,7 +12,7 @@ $email="$c->email";
 
 
 <P>
-<TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Build-O-Base</font> </h3><TR><TD>
+<TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Buddy System</font> </h3><TR><TD>
 
 <?php
 $connection = @mysql_connect($server, $dbusername, $dbpassword)
