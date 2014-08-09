@@ -111,6 +111,7 @@ mysql_query("UPDATE `authorize` SET serverop='$id' WHERE username='$user' ");
 
 
 echo "Success PIN Entered<P>";
+echo "Give this PIN number to your friends!<P>";
 
 
 

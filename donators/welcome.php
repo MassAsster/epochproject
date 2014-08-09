@@ -22,7 +22,7 @@ $db = @mysql_select_db($db_name,$connection)
 <center><table border=0 bgcolor='#ffffff'><td align=center><tr><P>
 <img src="<?=$c->gravatar?>" >
 <P>
-echo "<br><form enctype=multipart/form-data action=addpin.php method=POST><input type='submit' value='Change Pin'></form> ";
+<br><form enctype=multipart/form-data action=addpin.php method=POST><input type='submit' value='Change Pin'></form>
 <P>
 <?php
 $result33 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user'");
@@ -40,7 +40,7 @@ if (!$result447) {
     die(mysql_error());
     }
 if (mysql_result($result447, 0, 0) > 0) {
-Echo "<P>We detected you have no buddy pin, you can do that <a href=addpin.php >HERE</a>";
+Echo "<P>We detected you do not have a buddy pin, you can do that <a href=addpin.php >HERE</a><P>";
 }
 
 $result44 = mysql_query("SELECT COUNT(*) FROM `authorize` WHERE username='$user' AND guid='0'");
