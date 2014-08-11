@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `firstname` varchar(128) DEFAULT NULL,
   `lastname` varchar(128) DEFAULT NULL,
   `username` varchar(42) NOT NULL DEFAULT '',
-  `password` varchar(52) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
   `is_admin` int(11) NOT NULL DEFAULT '0',
   `email` varchar(128) NOT NULL DEFAULT '',
   `user_group` int(1) DEFAULT '0' COMMENT '0=member;1=Group1;2=group2;',

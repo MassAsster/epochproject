@@ -1,11 +1,11 @@
 <?php
 require_once 'bootstrap.php';
+$c = core::init();
 secure_page();
 $c = get_data();
 include ('style.php');
 require('config.php');
-?>
-<?php		
+	
 $user="$c->username";
 ?>
 
@@ -14,26 +14,22 @@ $user="$c->username";
 <TABLE BORDER=1><th bgcolor="#003399"> <center><h3><font color=#ffffff>Revive Lost Player</font> </h3><TR><TD>
 
 <?php
-$connection = @mysql_connect($server, $dbusername, $dbpassword)
-			or die(mysql_error());
+		
 			
-$db = @mysql_select_db($db_name,$connection)
-			or die(mysql_error());
-			
-			
-$result = mysql_query("SELECT * FROM authorize WHERE username='$user'");
+$query = $c->db->prepare("SELECT * FROM authorize WHERE username=:user");
+$query->execute(array(':user' => $user));
 
-while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
     printf("<center><table border=0 bgcolor='#ffffff'><td align=center><font color=#880000><h3>User:</font> %s </h3>Tokens Remaining: %s <P> <font color=#880000>Player ID:</font> %s <P>", $row["username"], $row["tokens"], $row["guid"] );
 
 }
 
-$query = "SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = '$user'"; 
-	 
-$result = mysql_query($query) or die(mysql_error());
+$query = $c->db->prepare("SELECT tokens, guid, COUNT(tokens) FROM authorize WHERE username = :user"); 
+$query->execute(array(':user' => $user));
+
 
 // Print out result
-while($row = mysql_fetch_array($result)){
+while($row = $query->fetch(PDO::FETCH_ASSOC)){
 	$tokens="". $row['tokens'] ."";
 	$guid="". $row['guid'] ."";
 	if($guid == 0) {
@@ -62,7 +58,6 @@ else {
 	}
 }
 
-	mysql_free_result($result);
 ?>
 </TD></TR></TABLE> 
  <P> 

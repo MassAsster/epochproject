@@ -11,7 +11,7 @@ class Core {
 	/**
 	 * Stores the instance to the database
 	 */
-	protected $db;
+	public $db;
 	/**
 	 * Stores the generated CSRF toke
 	 */
@@ -138,15 +138,15 @@ class Core {
 	 */
 	public function send_password_request($email) {
 		// Generate a random hash
-		$forgot_hash = md5(time().mt_rand());
+		$forgot_hash = bin2hex(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
 
 		// Some basic filtering
 		$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
 		if ( $this->in_use($email, 'email') ) {
 
-			$sth = $this->db->prepare("UPDATE `members` SET `forgot_hash` = '$forgot_hash' WHERE `email` = :email");
-			$sth->execute( array( ':email' => $email ) );
+			$sth = $this->db->prepare("UPDATE `members` SET `forgot_hash` = :forgot_hash WHERE `email` = :email");
+			$sth->execute( array( ':email' => $email, ':forgot_hash' => $forgot_hash ) );
 
 			if ( $sth->rowCount() > 0 ) {
 				// Send the email Jonny
@@ -229,23 +229,23 @@ class Core {
 		if ( !$this->valid_email_address($email) ) {
 			return die_message(true, _rd('email', $email, INVALID_EMAIL_ADDRESS));
 		}
- //make connection to dbase
-$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die(mysql_error());
-			
-$db = @mysql_select_db(DB_NAME,$connection)
-		or die(mysql_error());
-		$username=mysql_real_escape_string($username);
-$password=mysql_real_escape_string($password);
-$firstname=mysql_real_escape_string($firstname);
-$lastname=mysql_real_escape_string($lastname);
-$email=mysql_real_escape_string($email);
+		//$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)		Obsolete?
+		//			or die(mysql_error());
+		//			
+		//$db = @mysql_select_db(DB_NAME,$connection)					Obsolete?
+		//		or die(mysql_error());
+		//$password=mysql_real_escape_string($password);				Obsolete?
+		//$firstname=mysql_real_escape_string($firstname);				Obsolete?
+		//$lastname=mysql_real_escape_string($lastname);				Obsolete?
+		//$email=mysql_real_escape_string($email);						Obsolete?
 		// All the hashing, hashing away
 		$pass_unhashed = $password;
-		$password = sha1($password . SALT);
+		//$password = sha1($password . SALT);
+
+		$password = create_hash($password);
 
 		// Is this users status awaiting activation?
-		$reset_token = md5(time().mt_rand());
+		$reset_token = bin2hex(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
 
 		$sql = "INSERT INTO `members`
 						(username, password, email, redirect, is_admin, firstname, lastname, status, forgot_hash)
@@ -310,16 +310,17 @@ $email=mysql_real_escape_string($email);
 
 		$sql = "UPDATE `members` SET "; // Prepare the SQL
 		$tmp_sql = $sql; // Cache the above variable.
- //make connection to dbase
-$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die(mysql_error());
-			
-$db = @mysql_select_db(DB_NAME,$connection)
-		or die(mysql_error());
-$password=mysql_real_escape_string($password);
-$firstname=mysql_real_escape_string($firstname);
-$lastname=mysql_real_escape_string($lastname);
-$email=mysql_real_escape_string($email);
+ 		//make connection to dbase
+		//$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)		Obsolete?
+		//			or die(mysql_error());
+		//			
+		//$db = @mysql_select_db(DB_NAME,$connection)					Obsolete?
+		//		or die(mysql_error());
+		//$password=mysql_real_escape_string($password);				Obsolete?
+		//$firstname=mysql_real_escape_string($firstname);				Obsolete?
+		//$lastname=mysql_real_escape_string($lastname);				Obsolete?
+		//$email=mysql_real_escape_string($email);						Obsolete?
+
 		if ( $firstname != $user->firstname ) {
 			// Ok, we can change.
 			$sql .= " `firstname` = :firstname,";
@@ -380,7 +381,7 @@ $email=mysql_real_escape_string($email);
 			$sql .= " `password` = :password ";
 			// We will need the unhashed version for later.
 			$pass_unhashed = $password;
-			$data[':password'] = sha1($password . SALT);
+			$data[':password'] = create_hash($password);
 
 			// Due to the password being changed we should email them.
 			$email_on_success = true;
@@ -433,14 +434,15 @@ $email=mysql_real_escape_string($email);
 
 	protected function in_use($item, $table) {
 		$item = strip_tags(stripslashes(strtolower($item)));
-		$sql = "SELECT COUNT(*) FROM `members` WHERE `$table` = '$item'";
-		if ($result = $this->db->query($sql)) {
-			if ( $result->fetchColumn() > 0 ) {
-				// We have a match
-				return true;
-			} else
-				return false;
-		}
+		$sql = "SELECT * FROM `members` WHERE `$table` = :item";
+
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':item' => $item));
+
+		if ( $query->rowCount() > 0 ) { // We have a match
+			return true;
+		} else
+			return false;
 	}
 
 	public function change_password($id, $code) {
@@ -450,16 +452,16 @@ $email=mysql_real_escape_string($email);
 		$code = filter_var($code, FILTER_SANITIZE_STRING);
 
 		// Ok check to see if these are valid.
-		$sql = "SELECT COUNT(*) FROM `members` WHERE `id` = '$id' AND `forgot_hash` = '$code'";
-		$result = $this->db->query($sql);
-		if ($result->fetchColumn() > 0) {
+		$sql = "SELECT C* FROM `members` WHERE `id` = '$id' AND `forgot_hash` = :code";
+		$query = $this->db->prepare($sql);
+		$query->execute(array(':code' => $code));
+
+		if ($query->rowCount() > 0) { // These values are correct
 			$this->spent_token($id);
-			// These values are correct
 			if ($this->perform_task('reset', $id, false))
 				return true;
 			else
 				return false;
-
 		} else {
 			return false;
 		}
@@ -469,9 +471,12 @@ $email=mysql_real_escape_string($email);
 
 		if ( $task == 'delete' ) {
 			// Delete the user.
-			$id = (int)$id;
-			$count = $this->db->exec("DELETE FROM `members` WHERE `id` = '$id' LIMIT 1");
-			if ($count >= 1) {
+			$id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+			//$count = $this->db->exec("DELETE FROM `members` WHERE `id` = '$id' LIMIT 1");
+			$sql = "DELETE FROM `members` WHERE `id` = :id LIMIT 1";
+			$query = $this->db->prepare($sql);
+			$query->execute(array(':id' => $id));
+			if ($query->rowCount() >= 1) {
 
 				// Did the administrator issue this delete? If so we wan't to redirect them to the manage users.
 				if ( $admin ) {
@@ -490,7 +495,9 @@ $email=mysql_real_escape_string($email);
 		} else if ($task == 'reset') {
 			// Reset the users password.
 			$password = $this->random_password();
-			$pass_hash = sha1($password . SALT);
+
+
+			$pass_hash = create_hash($password);;
 			$sql = "UPDATE `members` SET `password` = :password WHERE `id` = :id LIMIT 1";
 			$sth = $this->db->prepare($sql);
 			$sth->execute(array(':password' => $pass_hash, ':id' => $id));
@@ -635,21 +642,21 @@ $email=mysql_real_escape_string($email);
 	 */
 	public function validate_user($user, $pass) {
  //make connection to dbase
-$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die(mysql_error());
-			
-$db = @mysql_select_db(DB_NAME,$connection)
-		or die(mysql_error());
-		// Clean the variables up.
-		$user=mysql_real_escape_string($user);
-		$pass=mysql_real_escape_string($pass);
-		$user = strip_tags($user);
-		$pass = strip_tags($pass);
-		$pass_hash = sha1($pass . SALT);
+//$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS)
+//			or die(mysql_error());
+//			
+//$db = @mysql_select_db(DB_NAME,$connection)
+//		or die(mysql_error());
+//		// Clean the variables up.
+//		$user=mysql_real_escape_string($user);
+//		$pass=mysql_real_escape_string($pass);
+//		$user = strip_tags($user);
+//		$pass = strip_tags($pass);
+//		$pass_hash = sha1($pass . SALT);
 
 		// Build the query
-		$sth = $this->db->prepare('SELECT * FROM `members` WHERE `username` = :username AND `password` = :password');
-		$sth->execute(array(':username' => $user, ':password' => $pass_hash));
+		$sth = $this->db->prepare('SELECT * FROM `members` WHERE `username` = :username ');
+		$sth->execute(array(':username' => $user));
 		$sth->setFetchMode(PDO::FETCH_OBJ);
 
 		// Check to see if the user has failed to login too many times.
@@ -664,7 +671,13 @@ $db = @mysql_select_db(DB_NAME,$connection)
 			// We have a user.
 			// Set the session variables.
 			$row = $sth->fetch();
-
+			if (validate_password($pass, $row->password) === FALSE) {
+				$_SESSION['LOGIN_ATTEMPTS'] += 1;
+				return json_encode(array(
+					'error' => true,
+					'message' => WRONG_LOGIN_DETAILS
+				));
+			}
 			// Check to see if the user is banned.
 			if ( $row->status == 4 ) {
 				return json_encode(
@@ -673,11 +686,12 @@ $db = @mysql_select_db(DB_NAME,$connection)
 						'message' => 'This account has been banned.'
 					));
 			}
+
 			// Check to see if the account is inactive.
 			if ( $row->status == 0 ) {
 				return json_encode(
-					array('error' => true,
-								'message' => 'This account has not yet been activated. Please check your inbox!'
+					   array('error' => true,
+							 'message' => 'This account has not yet been activated. Please check your inbox!'
 							));
 			}
 			$_SESSION['LOGGED_IN'] = true;
@@ -690,15 +704,15 @@ $db = @mysql_select_db(DB_NAME,$connection)
 			$_SESSION['LOCATION'] = $row->redirect;
 			return json_encode(
 				array('error' => false,
-							'message' => 'Success, welcome ' . $row->firstname . ' ' . $row->lastname . ' you are now logged in.',
-							'redirect' => $row->redirect)
+					  'message' => 'Success, welcome ' . $row->firstname . ' ' . $row->lastname . ' you are now logged in.',
+					  'redirect' => $row->redirect)
 				);
 		} else {
 			// No user.
 			$_SESSION['LOGIN_ATTEMPTS'] += 1;
 			return json_encode(array(
 				'error' => true,
-				'message' => WORNG_LOGIN_DETAILS
+				'message' => WRONG_LOGIN_DETAILS
 			));
 		}
 

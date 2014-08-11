@@ -6,11 +6,15 @@ DayZ Epoch Player Reward System
 
 Player Reward System:
 
- 
+Note 1:
+### It is recommended to take offline any running instances of the old donation system untill we have polish off the vulnrablities that has come to light.
+
+note2:
 
 Due to the concern from the Epoch dev team about the whole donation based reward system, I completely re-hauled the way tokens are given to players. Players can use their in game Zombie kills, Bandit Kills and Player Kills to gain tokens in this system. You will only be able to bank tokens that are in your current ALIVE character, meaning once your character is dead - you will not be able to bank the zombie kills.
 
 Tokens can be used on player rewards such as a backpack with building loot, a base item (like a well with water, a guard tower ),  a vehicle (not keyed), a vault code change and more.
+
 
  
 
