@@ -154,6 +154,7 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 $zombiekills="". $row['KillsZ'] ."";
 $banditkills="". $row['KillsB'] ."";
 $humankills="". $row['KillsH'] ."";
+$chumanity="". $row['Humanity'] ."";
 if($zombiekills==0) {
 	echo "No zombie kills to process, bank not active";
 	exit();
@@ -166,6 +167,8 @@ $humantotal = $humankills * $humanweight;
 
 $thetotal = ($zombietotal + $bandittotal) - $humantotal;
 
+$thumanity = $humanity * $thetotal;
+$nhumanity = $chumanity - $thumanity;
 
        $connection = @mysql_connect($server, $dbusername, $dbpassword)
 			or die(mysql_error());
@@ -190,9 +193,9 @@ echo "<center>Token Bank: <P>Tokens Already Had: $tokens32<P>
 Token Math:<P>Zombie Kills: $zombiekills , worth $zombieweight each. $zombietotal total <P>
 Bandit Kills: $banditkills , worth $banditweight each. $bandittotal total <P>
 Human Kills: $humankills , minus $humanweight each. $humantotal total lost tokens <P>
-Tally new tokens: $thetotal<P>
+Tally new tokens: $thetotal<P>Humanity Cost for Trade: $thumanity<P>
 Final token balance: $updateit
-
+<P><form enctype=multipart/form-data action=welcome.php method=POST><input type='submit' value='Home'></form>
 
 ";
 if($multi == 0) {
@@ -296,10 +299,10 @@ $db = @mysql_select_db($databasenames10,$connection)
 else {
 }
 if($multicharactersupport == 0 ) {
-mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0' WHERE PlayerUID='$pname' AND Alive='1'");
+mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1'");
 }
 else {
-mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0' WHERE PlayerUID='$pname' AND Alive='1' AND Slot='$slot'");
+mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1' AND Slot='$slot'");
 }
 }
 }

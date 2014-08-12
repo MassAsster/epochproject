@@ -137,19 +137,19 @@ while($row = mysql_fetch_array($result)){
 //	$guid="". $row['guid'] ."";
 if($multicharactersupport == 1) {
 if($wipeinventory == 0) {
-mysql_query("UPDATE `$chartablename` SET Alive='1' WHERE CharacterID='$charda' AND Slot ='$slot' ");
+mysql_query("UPDATE `$chartablename` SET Alive='1', KillsZ='0', KillsB='0' WHERE CharacterID='$charda' AND Slot ='$slot' ");
 }
 else {
-mysql_query("UPDATE `$chartablename` SET Alive='1', Inventory='[[],[]]', Backpack='' WHERE CharacterID='$charda' AND Slot ='$slot' ");
+mysql_query("UPDATE `$chartablename` SET Alive='1', Inventory='[[],[]]', KillsZ='0', KillsB='0', Backpack='' WHERE CharacterID='$charda' AND Slot ='$slot' ");
 }
 
 }
 else{
 if($wipeinventory == 0) {
-mysql_query("UPDATE `$chartablename` SET Alive='1' WHERE CharacterID='$charda' ");
+mysql_query("UPDATE `$chartablename` SET Alive='1', KillsZ='0', KillsB='0' WHERE CharacterID='$charda' ");
 }
 else {
-mysql_query("UPDATE `$chartablename` SET Alive='1', Inventory='[[],[]]', Backpack='' WHERE CharacterID='$charda' ");
+mysql_query("UPDATE `$chartablename` SET Alive='1', Inventory='[[],[]]', KillsZ='0', KillsB='0', Backpack='' WHERE CharacterID='$charda' ");
 }
 }
 echo "<TABLE BORDER=1 style='width:400px'><th bgcolor='#003399'> <center><h3><font color=#ffffff>Processing</font> </h3><TR><TD>
