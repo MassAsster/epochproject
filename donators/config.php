@@ -32,10 +32,11 @@ $allowvaultchange = 1; // allow changing vault code change option 0 off 1 on
 $allowbuddysys = 1; // allow buddy system teleport option 0 off 1 on
 $instance = 24; // Must match your instance set in the init.sqf
 $logging = 1; //enable logging 
-$humanity = 1000; //Cost in humanity to do business with the bank token system.
-$zombieweight = .03; //How much for each zombie kill
-$banditweight = .04; //how much for each bandit kill
-$humanweight = .05; // This is token punishment for killing human players set to 0 to disable
+$humanity = 350; //Cost in humanity to do business with the bank token system.
+$headshotbonus = .02; //Headshots are worth
+$zombieweight = .04; //How much for each zombie kill
+$banditweight = .05; //how much for each bandit kill
+$humanweight = .10; // This is token punishment for killing human players set to 0 to disable
 ////////////////////////////////stats setup/////////////////////////////
 //Site logo
 $hostlogo = "logo.png";

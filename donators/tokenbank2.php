@@ -154,18 +154,25 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 $zombiekills="". $row['KillsZ'] ."";
 $banditkills="". $row['KillsB'] ."";
 $humankills="". $row['KillsH'] ."";
+$headshotkills="". $row['HeadshotsZ'] ."";
 $chumanity="". $row['Humanity'] ."";
 if($zombiekills==0) {
-	echo "No zombie kills to process, bank not active";
+	echo "No zombie kills to process, bank not active<P><form enctype=multipart/form-data action=welcome.php method=POST><input type='submit' value='Home'></form>";
 	exit();
 }
 else {
 } 
+if($chumanity < 0 ) {
+	echo "You have no humanity, bank not active<P><form enctype=multipart/form-data action=welcome.php method=POST><input type='submit' value='Home'></form>";
+	exit();
+}
+else {
+}
 $zombietotal = $zombiekills * $zombieweight;
 $bandittotal = $banditkills * $banditweight;
 $humantotal = $humankills * $humanweight;
-
-$thetotal = ($zombietotal + $bandittotal) - $humantotal;
+$headshots = $headshotbonus * $headshotkills;
+$thetotal = ($zombietotal + $bandittotal + $headshots) - $humantotal;
 
 $thumanity = $humanity * $thetotal;
 $nhumanity = $chumanity - $thumanity;
@@ -192,8 +199,9 @@ echo "<center><table border=0 bgcolor='#ffffff'><td align=center><font color=#88
 echo "<center>Token Bank: <P>Tokens Already Had: $tokens32<P> 
 Token Math:<P>Zombie Kills: $zombiekills , worth $zombieweight each. $zombietotal total <P>
 Bandit Kills: $banditkills , worth $banditweight each. $bandittotal total <P>
+HeadShot Bonus: $headshotkills , worth $headshotbonus each. $headshots total <P>
 Human Kills: $humankills , minus $humanweight each. $humantotal total lost tokens <P>
-Tally new tokens: $thetotal<P>Humanity Cost for Trade: $thumanity<P>
+Tally new tokens: $thetotal<P>Current Humanity: $chumanity<P>Current Humanity Cost for trade: $thumanity<br>$humanity X $thetotal = $thumanity<P>Final Humanity:$nhumanity<P>
 Final token balance: $updateit
 <P><form enctype=multipart/form-data action=welcome.php method=POST><input type='submit' value='Home'></form>
 
@@ -299,10 +307,10 @@ $db = @mysql_select_db($databasenames10,$connection)
 else {
 }
 if($multicharactersupport == 0 ) {
-mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1'");
+mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', HeadshotsZ='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1'");
 }
 else {
-mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1' AND Slot='$slot'");
+mysql_query("UPDATE `$chartablename` SET KillsZ='0', KillsB='0', HeadshotsZ='0', Humanity='$nhumanity' WHERE PlayerUID='$pname' AND Alive='1' AND Slot='$slot'");
 }
 }
 }
