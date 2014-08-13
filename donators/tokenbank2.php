@@ -173,8 +173,13 @@ $bandittotal = $banditkills * $banditweight;
 $humantotal = $humankills * $humanweight;
 $headshots = $headshotbonus * $headshotkills;
 $thetotal = ($zombietotal + $bandittotal + $headshots) - $humantotal;
-
-$thumanity = $humanity * $thetotal;
+if($chumanity > $humanityf ) {
+$fhumanity = $humanityf1;
+}
+else {
+$fhumanity = $humanityf2;
+}
+$thumanity = $fhumanity * $thetotal;
 $nhumanity = $chumanity - $thumanity;
 
        $connection = @mysql_connect($server, $dbusername, $dbpassword)

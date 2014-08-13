@@ -1,5 +1,5 @@
 <?php
-$version ="1.50";
+$version ="1.75";
 //set up the names of the database and table for the WEB SERVER
 ////////////MODIFY THIS SECTION //////////////////
 $db_name ="databasename";
@@ -24,15 +24,17 @@ $allowrevive = 1; //allow revive option 0 off 1 on
 $allowstartergear = 1; //allow starter gear option 0 off 1 on
 $allowbuildloot = 1; //allow builder loot option 0 off 1 on
 $allowbugfix = 1; //allow bug fix/heal option 0 off 1 on
-$wipeinventory = 0; //Clear inventory on revive 0 off 1 on
+$wipeinventory = 1; //Clear inventory on revive 0 off 1 on
 $multicharactersupport = 0; //Support for mutli-character mod, allows up to 5 characters
 $allowstats = 1; //Allow players to view their stats
 $allowbuildobase = 1; // allow Build-o-Base option 0 off 1 on
-$allowvaultchange = 1; // allow changing vault code change option 0 off 1 on
+$allowvaultchange = 1; // allow changing vault code option 0 off 1 on
 $allowbuddysys = 1; // allow buddy system teleport option 0 off 1 on
 $instance = 24; // Must match your instance set in the init.sqf
-$logging = 1; //enable logging 
-$humanity = 350; //Cost in humanity to do business with the bank token system.
+$logging = 1; //enable logging
+$humanityf = 6000; //Humanity above this number is subject to humanityf1, below this number is f2 
+$humanityf2 = 250; //Cost in humanity to do business with the bank token system when you are below 6000 humanity. This is not 150 humanity, it is 150x(token value)
+$humanityf1 = 550; //Cost in humanity to do business with the bank token system when you are above 6000 humanity.. This is not 350 humanity, it is 350x(token value)
 $headshotbonus = .02; //Headshots are worth
 $zombieweight = .04; //How much for each zombie kill
 $banditweight = .05; //how much for each bandit kill
@@ -61,17 +63,17 @@ $t6="#F4A460";
 
 $coinsgiventonewbies = 5; // new registered players get tokens, this sets how many
 
-$coinsforrevive = ".25";  // number of tokens for revive
+$coinsforrevive = ".50";  // number of tokens for revive
 
 $coinsforvault = "1"; // Number of tokens for changing a vault code
 
 $coinsforbuddy = "1"; // tokens to use the buddy system
 
-$coinsforbugfix = ".10"; //Wake up a character that's stuck in the hour glass bug
+$coinsforbugfix = ".25"; //Wake up a character that's stuck in the hour glass bug
 
 //////////////////////////BUILD O BASE Setup///////////////////////////////////////
 
-$coinsforsmallitems = "3"; // Small Items inside the Build-O-Base
+$coinsforsmallitems = "4"; // Small Items inside the Build-O-Base
 //Small Items are listed here in the Options//
 $buildobase = "<select name='part'>
 <option value='Land_Misc_deerstand'>Deer Stand</option>
@@ -108,7 +110,7 @@ $buildobase4 = "<select name='part'>
 
 ///////////////////////////////////begin building supplies setup//////////////////
 
-$coinsforbuildingsupplies = "3"; // cost Backpack of building supplies package 1
+$coinsforbuildingsupplies = "4"; // cost Backpack of building supplies package 1
 $mybuildlootp1 = "[\"DZ_LargeGunBag_EP1\",[[\"ItemCompass\",\"M110_NVG_EP1\"],[1,1]],[[\"ItemWoodWallGarageDoor\",\"ItemWoodWallWithDoorLg\",\"ItemWoodWallLg\",\"ItemVault\",\"ItemWoodFloor\",\"ItemWoodStairs\",\"PartWoodLumber\",\"20Rnd_762x51_B_SCAR\",\"ItemComboLock\",\"ItemAntibiotic\",\"ItemBandage\",\"ItemGoldBar10oz\",\"MortarBucket\"],[1,1,4,1,4,2,4,4,1,1,2,1,2]]]";
 $buildlootdescp1 = "DZ_LargeGunBag_EP1 ItemCompass M110_NVG_EP1 (1)ItemWoodWallGarageDoor (1)ItemWoodWallWithDoorLg (4)ItemWoodWallLg (1)ItemVault (4)ItemWoodFloor<br> (2)ItemWoodStairs (4)PartWoodLumber (4)20Rnd_762x51_B_SCAR<br> (1)ItemComboLock (1)ItemAntibiotic (2)ItemBandage (1)ItemGoldBar10oz (2)MortarBucket"; //whats in the building loot?
 
@@ -123,9 +125,9 @@ $buildlootdescp3 = "DZ_LargeGunBag_EP1 ItemCompass ItemEtool ItemToolbox MeleeCr
 
 
 /////////////////////////////begin starting loot setup///////////////////////////////////
-$coinsforbagoguns = ".10"; //Backpack with gun, food, PACKAGE  1,2,3 (pistols and such)
-$coinsforbagoguns2 = ".20"; //Backpack with gun, food, PACKAGE 4,5,6 (rifles and such)
-$coinsforbagoguns3 = ".30"; //Backpack with gun, food, PACKAGE 7,8,9 (sniper rifles)
+$coinsforbagoguns = ".25"; //Backpack with gun, food, PACKAGE  1,2,3 (pistols and such)
+$coinsforbagoguns2 = ".45"; //Backpack with gun, food, PACKAGE 4,5,6 (rifles and such)
+$coinsforbagoguns3 = ".65"; //Backpack with gun, food, PACKAGE 7,8,9 (sniper rifles)
 
 
 
@@ -164,14 +166,7 @@ $startlootp9desc= " DZ_LargeGunBag_EP1 ItemCompass ItemToolbox Binocular ItemMap
 ///////////////// END STARTING LOOT SETUP ///////////////////////
 
 
-$coinsforbuild1 = "10"; //coins for small premade base
-$smallbasedesc = "What is included in the small premade base";
 
-$coinsforbuild2 = "15"; //coins for med premade base
-$medbasedesc = "what is included in the med premade base";
-
-$coinsforbuild3 = "20"; //coins for large premade base
-$largebasedesc = "What is included in the large premade base";
 
 ////////////////FOR USE WITH MULTIPLE GAME SERVERS ONLY/////////////////////////////
 $mutliserversetup = 0; // 1 for multi-server, zero for a single server setup
