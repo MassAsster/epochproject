@@ -182,9 +182,15 @@ $areyouadmin = "$c->is_admin";
 if($areyouadmin == 1) {
 echo "<br><form enctype=multipart/form-data action=admintools.php method=POST target=_blank><input type='submit' value='Admin Controls'></form> ";
 }
+if($allowdonation == 1) {
+$donation="<a href='gettokens.php'><img src='images/buytokens.png' border='0'></a>";
+}
+else {
+$donation="";
+}
 	?>
 <br>
-<a href="tokenbank.php"><img src="images/gettokens.png" border="0"></a><a href="edit_profile.php"><img src="images/myprofile.png" border="0"></a><a href="help.php"><img src="images/help.png" border="0"></a><P>
+<?php echo $donation ?><a href="tokenbank.php"><img src="images/gettokens.png" border="0"></a><a href="edit_profile.php"><img src="images/myprofile.png" border="0"></a><a href="help.php"><img src="images/help.png" border="0"></a><P>
 <a href="revive.php"><img src="images/revive.png" border="0"></a>
 <a href="bagwgun.php"><img src="images/startgear.png" border="0"></a><a href="bagwbuildables.php"><img src="images/building.png" border="0"></a>
 <P>

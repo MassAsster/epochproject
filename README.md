@@ -7,7 +7,7 @@ DayZ Epoch Player Reward System
 Player Reward System:
 
 Note 1:
-### It is recommended to take offline any running instances of the old donation system untill we have polish off the vulnrablities that has come to light.
+PDO and new password encyptions have been added, this will require an update to the database table 'password' if you updating from an older version. This update is included in the updatedatabase.sql file. A new buddy system has been added to allow players to join friends upon spawning in. A new method for receiving tokens has been finialized and allows server operators to set the value of kills, headshots, bandit kills, as well as set the cost in humanity to make trades with the banking system. Two levels of cost (for humanity) are customizable and allow for players above a certain number in humanity to have a higher humanity cost when doing business with the token bank system. Humanity has long been a useless number after 5000, this will hopefully bring back some use for humanity.
 
 note2:
 

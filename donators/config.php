@@ -1,5 +1,5 @@
 <?php
-$version ="1.75";
+$version ="2.00";
 //set up the names of the database and table for the WEB SERVER
 ////////////MODIFY THIS SECTION //////////////////
 $db_name ="databasename";
@@ -20,6 +20,7 @@ $chartablename = "character_data"; //Allows for case sensitive database names
 $playerdata= "player_data"; //Player names and PID table Allows for case sensitive database names
 $objecttable= "object_data"; //Object Data Table allows for case sensitive database names
 $tradersdata= "traders_data"; //Traders item Data Table allows for case sensitive database names
+$allowdonation = 0; //Donation for token option - free tokens are ALWAYS active.
 $allowrevive = 1; //allow revive option 0 off 1 on
 $allowstartergear = 1; //allow starter gear option 0 off 1 on
 $allowbuildloot = 1; //allow builder loot option 0 off 1 on
