@@ -8,9 +8,8 @@ secure_page();
 $c = get_data();
 
 $user="$c->username";
-//$connection = @mysql_connect($server, $dbusername, $dbpassword)	or die(mysql_error());
-//			
-//$db = @mysql_select_db($db_name,$connection) or die(mysql_error()); 
+$connection = @mysql_connect($server, $dbusername, $dbpassword)	or die(mysql_error());
+$db = @mysql_select_db($db_name,$connection) or die(mysql_error()); 
 $today = date("Y-m-d H:i:s");
 //$c->connect();
 //var_dump($c);	
