@@ -15,8 +15,10 @@ $email="$c->email";
 
 <?php
 
-			
+$connection = @mysql_connect($server, $dbusername, $dbpassword)	or die(mysql_error());			
+$db = @mysql_select_db($db_name,$connection) or die(mysql_error()); 		
 $size=$_POST['baseitem'];
+			
 
 	
 $query = $c->db->prepare("SELECT * FROM authorize WHERE username=:user");
